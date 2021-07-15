@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow
+		name="get:\syncCaseSFGed\(baseId)\(id):x-gr-sync-case-config"
+		doc:id="153db927-0cbb-4b88-9a5a-966a51eb5d8e">
+		<ee:transform doc:name="Set Log Configuration"
+			doc:id="7587494e-6cf9-45ac-af5e-061f301529cd">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="logMessage"><![CDATA[%dw 2.0
+output application/java
+---
+'Experience cases from Salesforce to Docubase - Start']]></ee:set-variable>
+				<ee:set-variable variableName="logCategory"><![CDATA[%dw 2.0
+output application/java
+---
+'Trace']]></ee:set-variable>
+				<ee:set-variable variableName="logLevel"><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mule-common-logger-subflow"
+			doc:id="0f5614f3-67dd-462d-ba12-dac602b74bb8"
+			name="mule-common-logger-subflow" />
+		<http:request method="GET" doc:name="Sync Case SF Ged"
+			doc:id="81df4624-415a-49ba-9e4e-dda340a31d5e"
+			config-ref="HTTP_Request_Process_configuration"
+			path="#['${config.docubase.endpoint.syncCaseSFGed}' ++ '/' ++ attributes.uriParams.baseId ++ '/' ++ attributes.uriParams.id]"
+			responseTimeout="999999999">
+			<http:headers><![CDATA[#[output application/json
+---
+{
+	client_secret : attributes.headers.client_secret,
+	client_id : attributes.headers.client_id,
+	'X-db-connectAs' : attributes.headers.'x-db-connectas'
+}]]]></http:headers>
+		</http:request>
+		<ee:transform doc:name="Set Log Configuration"
+			doc:id="1d93b5ca-f896-40b6-a19e-d97658b025cb">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="logMessage"><![CDATA[%dw 2.0
+output application/java
+---
+'Experience cases from Salesforce to Docubase - Start']]></ee:set-variable>
+				<ee:set-variable variableName="logCategory"><![CDATA[%dw 2.0
+output application/java
+---
+'Trace']]></ee:set-variable>
+				<ee:set-variable variableName="logLevel"><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mule-common-logger-subflow"
+			doc:id="14b7baff-8d2b-441d-a5e6-e10bb67cfc6e"
+			name="mule-common-logger-subflow" />
+	</flow>
+</mule>
