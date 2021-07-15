@@ -1,0 +1,42 @@
+# Environment specific properties
+environment:
+ name: "dev"
+  
+api:
+  name: "${application.name}-${environment.name}"
+  ///id: "329996"
+  version: "v1"
+
+# Common properties
+common:
+  audit:
+    role:
+      logStart: "true"
+      logEnd: "true"
+      logInfo: "true"
+      logWarning: "true"
+      logError: "true"
+      logDebug: "true"
+    defaultLogPayloadLogic: "ALWAYS"
+    
+http:
+  port: "8088"
+  timeout: "99999999"
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+
+https:
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+    
+config:
+  protocol: "HTTP"
+  host: "localhost"
+  port: "8085"
+  docubase:
+    path:
+      baseURI: "api/p-gr-sync-case-dev/v1"
+    endpoint:
+      getTree: "/getTree"
+      syncCaseTaskGedSf: "/syncCaseTaskGedSf"
+      syncCaseSFGed: "/syncCaseSFGed"

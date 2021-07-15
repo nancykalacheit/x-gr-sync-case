@@ -1,0 +1,39 @@
+#%RAML 1.0
+
+title: s-gr-sync-account
+version: v1
+
+uses:
+  rt: library/resource-types.raml
+
+traits:
+  client-id-secret-required: !include /exchange_modules/4ee67a21-421f-4c2f-ad1d-5abd11c095a9/client-id-enforcement/1.0.0/client-id-enforcement.raml
+
+/syncCaseTaskGedSf:
+    is: [client-id-secret-required] 
+    type:
+      rt.read-only-resource-type:
+        getResponseExamples: 
+          Example 1:
+        getResponseType: 
+        
+/getTree:
+    is: [client-id-secret-required] 
+    type:
+      rt.read-only-resource-type:
+        getResponseExamples: 
+          Example 1:
+        getResponseType: 
+        
+/syncCaseSFGed/{baseId}/{id}:
+      is: [client-id-secret-required] 
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples: 
+            Example 1:
+          getResponseType: 
+        
+/api-status:
+  is: [client-id-secret-required] 
+  type: 
+    rt.api-status-resource-type

@@ -1,0 +1,6 @@
+# Default properties (non environment-specific)
+application:
+    name: x-gr-sync-case
+    instance: ${domain}
+    version: ${pom.version}
+    majorVersion: ${pom.application.majorVersion}

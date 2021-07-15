@@ -1,0 +1,13 @@
+environment:
+ name: "![TYx63+PckT5A0h9oA9gWYQ==]"
+application:
+ name: "Mule 4 Template API"
+api:
+ name: "mule-4-template-api-${secure::environment.name}"
+ id: "15688395"
+ version: "v1"
+ http:
+  listener:
+   path: "/api/${api.name}/${api.version}/*"
+   host: "0.0.0.0"
+   port: "8081"

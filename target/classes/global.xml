@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	 <apikit:config name="x-gr-sync-case-config" api="x-gr-sync-case.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<http:request-config name="HTTP_Request_Process_configuration" doc:name="HTTP Request configuration" doc:id="53b45631-4e66-46b0-a0d6-ae70cbf2ee59" basePath="/${config.docubase.path.baseURI}">
+		<http:request-connection protocol="${config.protocol}" host="${config.host}" port="${config.port}" connectionIdleTimeout="${http.timeout}"/>
+	</http:request-config>	
+	<import doc:name="Import" doc:id="5986036d-70a6-4388-a554-a1bb47cf7f46" file="common/audit/audit.xml" />
+	<import doc:name="Import" doc:id="b86a399f-74ca-4cad-a65b-f53c50b678e2" file="common/audit/commons.xml" />
+	<import doc:name="Import" doc:id="c83e0437-2bfa-4dc4-9366-5f59609471a9" file="common/error/error-handling.xml" />
+	<import doc:name="Import" doc:id="662bd3a8-d9c6-4258-a4f7-7043a11e4635" file="common/error/global-api-error.xml" />
+	<import doc:name="Import" doc:id="c9c45a9f-a23e-433f-8905-ee29c1a018bd" file="common/error/global-error.xml" />
+	<global-property doc:name="Global Property" doc:id="580ae0a2-2c52-4104-b65b-53b27b409590" name="mule.env" value="devLocal" />
+	<global-property doc:name="Global Property" doc:id="d08c799b-81dc-4dff-8ad1-91f4ef78e04a" name="mule.securefile" value="dev-secure" />
+	<configuration-properties doc:name="Configuration properties" doc:id="131027f7-0eae-441c-8363-aa8dcb034f25" file="secure/${mule.securefile}.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="2a934833-3759-4201-8bc3-dd1980500166" file="environment/${mule.env}.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="2fdc8e73-ceca-4937-b013-d7669b4aba3a" file="environment\default-prop.yaml" />
+	<configuration doc:name="Configuration" doc:id="7d049f57-2884-4190-9ddc-4669911b4762" defaultErrorHandler-ref="api-global-error-handler" />
+		<http:listener-config
+		name="httpListenerConfigExperience">
+		<http:listener-connection host="0.0.0.0"
+			port="${http.port}" connectionIdleTimeout="${http.timeout}" />
+	</http:listener-config>
+</mule>
