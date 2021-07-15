@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="get:\getTree:x-gr-sync-case-config" doc:id="e8d54546-beaa-42e7-a723-4b0f94d547e1" >
+		<ee:transform doc:name="Set Log Configuration" doc:id="a620fe4f-a1b5-40a3-b385-4ecef08cf5a7" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
+output application/java
+---
+"Experience Docubase Request - Plan de Classement - Start"]]></ee:set-variable>
+				<ee:set-variable variableName="logCategory" ><![CDATA[%dw 2.0
+output application/java
+---
+'Trace']]></ee:set-variable>
+				<ee:set-variable variableName="logLevel" ><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mule-common-logger-subflow" doc:id="00a7ca67-8248-45af-8abf-fe9eb6bb9b91" name="mule-common-logger-subflow" />
+		<http:request method="GET" doc:name="Get Tree from Docubase" doc:id="4dc1c253-0b6b-4b0b-b605-82ac37b922d5" config-ref="HTTP_Request_Process_configuration" path="#['${config.docubase.path.baseURI}' ++ '${config.docubase.endpoint.getTree}']" >
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : 111,
+	"client_id" : 111
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	value : attributes.queryParams.value,
+	'type' : attributes.queryParams.'type'
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Set Log Configuration" doc:id="b57b633a-0485-46f5-8941-d5907017e553" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="logMessage" ><![CDATA[%dw 2.0
+output application/java
+---
+"Experience Docubase Request - Plan de Classement - Finish"]]></ee:set-variable>
+				<ee:set-variable variableName="logCategory" ><![CDATA[%dw 2.0
+output application/java
+---
+'Trace']]></ee:set-variable>
+				<ee:set-variable variableName="logLevel" ><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="mule-common-logger-subflow" doc:id="e384b50f-d051-460b-9c54-cb6c3b18fefe" name="mule-common-logger-subflow" />
+	</flow>
+</mule>
