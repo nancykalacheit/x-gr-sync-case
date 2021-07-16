@@ -6,18 +6,6 @@ api:
   name: "${application.name}-${environment.name}"
   ///id: "329996"
   version: "v1"
-
-# Common properties
-common:
-  audit:
-    role:
-      logStart: "true"
-      logEnd: "true"
-      logInfo: "true"
-      logWarning: "true"
-      logError: "true"
-      logDebug: "true"
-    defaultLogPayloadLogic: "ALWAYS"
     
 http:
   port: "8088"
@@ -40,3 +28,15 @@ config:
       getTree: "/getTree"
       syncCaseTaskGedSf: "/syncCaseTaskGedSf"
       syncCaseSFGed: "/syncCaseSFGed"
+      
+# Common properties
+common:
+  audit:
+    role:
+      logStart: "true"
+      logEnd: "true"
+      logInfo: "true"
+      logWarning: "true"
+      logError: "true"
+      logDebug: "true"
+    defaultLogPayloadLogic: "ALWAYS"
